@@ -6,7 +6,7 @@
 /*   By: anthtorr <anthtorr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 15:33:07 by anthtorr          #+#    #+#             */
-/*   Updated: 2023/10/30 14:52:06 by anthtorr         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:58:28 by anthtorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,23 +127,18 @@ void	ft_puthex(unsigned long long int num, char hex_base)
 
 void	ft_putfloat(double num)
 {
-	int negativo;
-    unsigned long long int parte_entera = (unsigned long long int)num;
-	
-    double parte_decimal = num - parte_entera;
-	
-    int *digitos_decimales = (int *)malloc(6 * sizeof(int));
-	
-    int i = 0;
-	
-    int j = 0;
-	
+	int						negativo;
+	unsigned long long int	parte_entera;
+	double					parte_decimal;
+	int						*digitos_decimales;
+	int						i;
+
 	negativo = 0;
-    if (num < 0)
-    {
-        negativo = 1;
-        num = -num;
-    }
+	if (num < 0)
+	{
+		negativo = 1;
+		num = -num;
+	}
 
     // Parte entera
     unsigned long long int parte_entera = (unsigned long long int)num;
@@ -173,10 +168,10 @@ void	ft_putfloat(double num)
     }
 
     // Imprimir los dígitos decimales
-    int j = 0;
-    while (j < 6)
+    i = 0;
+    while (i < 6)
     {
-        ft_putchar(digitos_decimales[j] + '0');
+        ft_putchar(digitos_decimales[i] + '0');
         j++;
     }
 
