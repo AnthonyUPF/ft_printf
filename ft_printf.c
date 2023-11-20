@@ -6,224 +6,112 @@
 /*   By: anthtorr <anthtorr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 15:33:07 by anthtorr          #+#    #+#             */
-/*   Updated: 2023/11/17 11:43:22 by anthtorr         ###   ########.fr       */
+/*   Updated: 2023/11/20 21:56:22 by anthtorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdarg.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "Libft/libft.h"
 
-void ft_putchar(char c)
+void	ft_puthex(unsigned long num, int uppercase)
 {
-    write(1, &c, 1);
+	char	*hex_digits;
+	char	hex_char;
+
+	if (num == 0)
+	{
+		ft_putchar_fd('0', 1);
+		return ;
+	}
+	if (num / 16 != 0)
+		ft_puthex(num / 16, uppercase);
+	hex_digits = "0123456789abcdef";
+	hex_char = hex_digits[num % 16];
+	if (uppercase)
+		hex_char = ft_toupper(hex_char);
+	ft_putchar_fd(hex_char, 1);
 }
 
-void ft_putstr(const char *str)
+void	ft_putunbr(unsigned int num)
 {
-    while (*str)
-    {
-        ft_putchar(*str);
-        str++;
-    }
+	if (num == 0)
+	{
+		ft_putchar_fd('0', 1);
+		return ;
+	}
+	if (num / 10 != 0)
+		ft_putunbr(num / 10);
+	ft_putchar_fd((num % 10) + '0', 1);
 }
 
-void ft_puthex(unsigned long long int num, char hex_base)
+void	ft_putfloat(double num)
 {
-    unsigned long long int temp;
-    char *digitos;
-    int indice;
-    int digit;
+	double			positive_num;
+	unsigned int	integer_part;
+	unsigned int	decimal_part;
 
-    temp = num;
-    if (temp == 0)
-    {
-        ft_putchar('0');
-        return;
-    }
-    int count = 0;
-    while (temp > 0)
-    {
-        temp /= 16;
-        count++;
-    }
-    digitos = (char *)malloc((count + 1) * sizeof(char));
-    if (digitos == NULL)
-    {
-        return;
-    }
-    indice = count;
-    while (num > 0)
-    {
-        digit = num % 16;
-        if (digit < 10)
-            digitos[indice - 1] = digit + '0';
-        else
-            digitos[indice - 1] = digit - 10 + hex_base;
-        num /= 16;
-        indice--;
-    }
-    digitos[count] = '\0';
-    ft_putstr(digitos);
-    free(digitos);
+	positive_num = num;
+	if (num < 0)
+	{
+		ft_putchar_fd('-', 1);
+		positive_num = -num;
+	}
+	integer_part = (unsigned int)positive_num;
+	decimal_part = (unsigned int)((positive_num - integer_part) * 1000000);
+	ft_putunbr(integer_part);
+	ft_putchar_fd('.', 1);
+	ft_putunbr(decimal_part);
 }
 
-void ft_putnbr(int num)
+int	ft_printf(const char *format, ...)
 {
-    if (num == -2147483648)
-    {
-        ft_putstr("-2147483648");
-        return;
-    }
-    if (num < 0)
-    {
-        ft_putchar('-');
-        num = -num;
-    }
-    if (num >= 10)
-    {
-        ft_putnbr(num / 10);
-    }
-    ft_putchar(num % 10 + '0');
-}
+	va_list		args;
+	const char	*ptr;
 
-void ft_putunbr(unsigned int num)
-{
-    unsigned int temp;
-    char *digitos;
-    int indice;
-
-    if (num == 0)
-    {
-        ft_putchar('0');
-        return;
-    }
-    temp = num;
-    int count = 0;
-    while (temp > 0)
-    {
-        temp /= 10;
-        count++;
-    }
-    digitos = (char *)malloc((count + 1) * sizeof(char));
-    if (digitos == NULL)
-    {
-        return;
-    }
-    indice = count;
-    while (num > 0)
-    {
-        digitos[indice - 1] = num % 10 + '0';
-        num /= 10;
-        indice--;
-    }
-    digitos[count] = '\0';
-    ft_putstr(digitos);
-    free(digitos);
-}
-
-void ft_putfloat(double num)
-{
-    int negativo;
-    unsigned long long int parte_entera;
-    double parte_decimal;
-    int *digitos_decimales;
-    int i;
-
-    negativo = 0;
-    if (num < 0)
-    {
-        negativo = 1;
-        num = -num;
-    }
-    parte_entera = (unsigned long long int)num;
-    ft_putunbr(parte_entera);
-    ft_putchar('.');
-    parte_decimal = num - parte_entera;
-    digitos_decimales = (int *)malloc(6 * sizeof(int));
-    if (digitos_decimales == NULL)
-    {
-        return;
-    }
-    i = 0;
-    while (i < 6)
-    {
-        parte_decimal *= 10;
-        digitos_decimales[i] = (int)parte_decimal;
-        parte_decimal -= digitos_decimales[i];
-        i++;
-    }
-    i = 0;
-    while (i < 6)
-    {
-        ft_putchar(digitos_decimales[i] + '0');
-        i++;
-    }
-    free(digitos_decimales);
-    if (negativo)
-    {
-        ft_putchar('-');
-    }
-}
-
-int ft_printf(char const *format, ...)
-{
-    va_list args;
-    const char *ptr;
-    unsigned long long int val;
-
-    va_start(args, format);
-    ptr = format;
-    while (*ptr)
-    {
-        if (*ptr == '%')
-        {
-            ptr++;
-            if (*ptr == 'c')
-                ft_putchar(va_arg(args, int));
-            else if (*ptr == 's')
-                ft_putstr(va_arg(args, const char *));
-            else if (*ptr == 'p')
-            {
-                val = (unsigned long long int)va_arg(args, void *);
-                ft_putstr("0x");
-                ft_puthex(val, 'a'); // Simplificado aquí
-            }
-            else if (*ptr == 'd' || *ptr == 'i')
-            {
-                ft_putnbr(va_arg(args, int));
-            }
-            else if (*ptr == 'u')
-            {
-                ft_putunbr(va_arg(args, unsigned int));
-            }
-            else if (*ptr == 'x' || *ptr == 'X')
-            {
-                ft_puthex(va_arg(args, unsigned int), (*ptr == 'x') ? 'a' : 'A');
-            }
-            else if (*ptr == 'f')
-            {
-                ft_putfloat(va_arg(args, double));
-            }
-            else if (*ptr == '%')
-            {
-                ft_putchar('%');
-            }
-        }
-        else
-        {
-            ft_putchar(*ptr);
-        }
-        ptr++;
-    }
-    va_end(args);
-    return 0;
+	va_start(args, format);
+	ptr = format;
+	while (*ptr)
+	{
+		if (*ptr == '%')
+		{
+			ptr++;
+			if (*ptr == 'c')
+				ft_putchar_fd(va_arg(args, int), 1);
+			else if (*ptr == 's')
+				ft_putstr_fd(va_arg(args, const char *), 1);
+			else if (*ptr == 'p')
+			{
+				ft_putstr_fd("0x", 1);
+				ft_puthex(va_arg(args, unsigned long), 0);
+			}
+			else if (*ptr == 'd' || *ptr == 'i')
+				ft_putnbr_fd(va_arg(args, int), 1);
+			else if (*ptr == 'u')
+				ft_putunbr(va_arg(args, unsigned int));
+			else if (*ptr == 'x')
+				ft_puthex(va_arg(args, unsigned int), 0);
+			else if (*ptr == 'X')
+				ft_puthex(va_arg(args, unsigned int), 1);
+			else if (*ptr == 'f')
+				ft_putfloat(va_arg(args, double));
+			else if (*ptr == '%')
+				ft_putchar_fd('%', 1);
+		}
+		else
+		{
+			ft_putchar_fd(*ptr, 1);
+		}
+		ptr++;
+	}
+	va_end(args);
+	return (0);
 }
 
 
 #include <stdio.h>
 
-int main() {
+int main()
+{
     // %c
     char c = 'A';
     ft_printf("Prueba de %%c:\n");
@@ -237,7 +125,7 @@ int main() {
     ft_printf("ft_printf: %s\n", str);
 
     // %p
-    void *ptr = (void*)str;
+    void *ptr = (void *)str;
     ft_printf("\nPrueba de %%p:\n");
     printf("printf: %p\n", ptr);
     ft_printf("ft_printf: %p\n", ptr);
@@ -253,8 +141,8 @@ int main() {
     printf("printf: %i\n", num);
     ft_printf("ft_printf: %i\n", num);
 
-    // %f (nuevo caso)
-    double num_d = 42.5;
+    // %f
+    double num_d = -42.5;
     ft_printf("\nPrueba de %%f:\n");
     printf("printf: %f\n", num_d);
     ft_printf("ft_printf: %f\n", num_d);
@@ -266,7 +154,7 @@ int main() {
     ft_printf("ft_printf: %u\n", u_num);
 
     // %x
-    unsigned int hex_num = 255;
+    unsigned int hex_num = 155;
     ft_printf("\nPrueba de %%x:\n");
     printf("printf: %x\n", hex_num);
     ft_printf("ft_printf: %x\n", hex_num);
