@@ -101,15 +101,13 @@ int	ft_printf(const char *format, ...)
 			handle_format(ptr, args);
 		}
 		else
-		{
 			ft_putchar_fd(*ptr, 1);
-		}
 		ptr++;
 	}
 	va_end(args);
 	return (0);
 }
-/*
+
 #include <stdio.h>
 
 int main()
@@ -173,4 +171,4 @@ int main()
 
     return 0;
 }
-*/
+
