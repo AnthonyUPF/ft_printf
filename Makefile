@@ -24,11 +24,11 @@ CC = gcc
 CFLAGS = -Wall -Werror -Wextra
 
 # Directorios donde se encuentran los archivos de encabezado
-INCLUDES = -I includes -I libft/includes
+INCLUDES = -I includes -I Libft/
 
 # Librerías necesarias
 LIBFT = libft.a
-LIBFT_PATH = libft
+LIBFT_PATH = Libft
 
 # Regla por defecto
 all: libft $(NAME)

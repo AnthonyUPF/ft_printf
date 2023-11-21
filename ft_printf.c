@@ -63,6 +63,29 @@ void	ft_putfloat(double num)
 	ft_putunbr(decimal_part);
 }
 
+void	handle_format(const char *ptr, va_list args)
+{
+	if (*ptr == 'c')
+		ft_putchar_fd(va_arg(args, int), 1);
+	else if (*ptr == 's')
+		ft_putstr_fd(va_arg(args, const char *), 1);
+	else if (*ptr == 'p')
+	{
+		ft_putstr_fd("0x", 1);
+		ft_puthex(va_arg(args, unsigned long), 0);
+	}
+	else if (*ptr == 'd' || *ptr == 'i')
+		ft_putnbr_fd(va_arg(args, int), 1);
+	else if (*ptr == 'u')
+		ft_putunbr(va_arg(args, unsigned int));
+	else if (*ptr == 'x' || *ptr == 'X')
+		ft_puthex(va_arg(args, unsigned int), *ptr == 'X');
+	else if (*ptr == 'f')
+		ft_putfloat(va_arg(args, double));
+	else if (*ptr == '%')
+		ft_putchar_fd('%', 1);
+}
+
 int	ft_printf(const char *format, ...)
 {
 	va_list		args;
@@ -75,27 +98,7 @@ int	ft_printf(const char *format, ...)
 		if (*ptr == '%')
 		{
 			ptr++;
-			if (*ptr == 'c')
-				ft_putchar_fd(va_arg(args, int), 1);
-			else if (*ptr == 's')
-				ft_putstr_fd(va_arg(args, const char *), 1);
-			else if (*ptr == 'p')
-			{
-				ft_putstr_fd("0x", 1);
-				ft_puthex(va_arg(args, unsigned long), 0);
-			}
-			else if (*ptr == 'd' || *ptr == 'i')
-				ft_putnbr_fd(va_arg(args, int), 1);
-			else if (*ptr == 'u')
-				ft_putunbr(va_arg(args, unsigned int));
-			else if (*ptr == 'x')
-				ft_puthex(va_arg(args, unsigned int), 0);
-			else if (*ptr == 'X')
-				ft_puthex(va_arg(args, unsigned int), 1);
-			else if (*ptr == 'f')
-				ft_putfloat(va_arg(args, double));
-			else if (*ptr == '%')
-				ft_putchar_fd('%', 1);
+			handle_format(ptr, args);
 		}
 		else
 		{
@@ -106,8 +109,7 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (0);
 }
-
-
+/*
 #include <stdio.h>
 
 int main()
@@ -171,4 +173,4 @@ int main()
 
     return 0;
 }
-
+*/
