@@ -14,7 +14,7 @@
 NAME = libftprintf.a
 
 # Fuentes de tu proyecto
-SRCS = ft_puthex.c ft_putunbr.c ft_putfloat.c ft_printf.c 
+SRCS = ft_puthex.c ft_putunbr.c ft_putfloat.c ft_printf.c
 
 # Archivos objetos generados a partir de los fuentes
 OBJS = $(SRCS:.c=.o)
@@ -33,26 +33,28 @@ LIBFT_PATH = Libft
 # Regla por defecto
 all: libft $(NAME)
 
-# Compila la librería
-$(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
+# Compila la librería libft
+libft:
+	$(MAKE) -C $(LIBFT_PATH)
 
 # Compila los objetos a partir de los fuentes
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# Regla para compilar la librería libft
-libft:
-	$(MAKE) -C $(LIBFT_PATH)
-
-# Limpia los archivos objetos
-clean:
-	rm -f $(OBJS)
+# Compila la librería libftprintf.a y el programa final
+$(NAME): libft $(OBJS)
+	cp $(LIBFT_PATH)/$(LIBFT) $(NAME)
+	ar rcs $(NAME) $(OBJS)
 
 # Limpia los archivos objetos y la librería
+clean:
+	rm -f $(OBJS)
+	$(MAKE) -C $(LIBFT_PATH) clean
+
+# Limpia los archivos objetos, la librería y el programa final
 fclean: clean
-	rm -f $(NAME)
 	$(MAKE) -C $(LIBFT_PATH) fclean
+	rm -f $(NAME)
 
 # Limpia y recompila desde cero
 re: fclean all
