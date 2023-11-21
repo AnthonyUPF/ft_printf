@@ -10,60 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
-#include "Libft/libft.h"
+#include "ft_printf.h"
 
-void	ft_puthex(unsigned long num, int uppercase)
-{
-	char	*hex_digits;
-	char	hex_char;
-
-	if (num == 0)
-	{
-		ft_putchar_fd('0', 1);
-		return ;
-	}
-	if (num / 16 != 0)
-		ft_puthex(num / 16, uppercase);
-	hex_digits = "0123456789abcdef";
-	hex_char = hex_digits[num % 16];
-	if (uppercase)
-		hex_char = ft_toupper(hex_char);
-	ft_putchar_fd(hex_char, 1);
-}
-
-void	ft_putunbr(unsigned int num)
-{
-	if (num == 0)
-	{
-		ft_putchar_fd('0', 1);
-		return ;
-	}
-	if (num / 10 != 0)
-		ft_putunbr(num / 10);
-	ft_putchar_fd((num % 10) + '0', 1);
-}
-
-void	ft_putfloat(double num)
-{
-	double			positive_num;
-	unsigned int	integer_part;
-	unsigned int	decimal_part;
-
-	positive_num = num;
-	if (num < 0)
-	{
-		ft_putchar_fd('-', 1);
-		positive_num = -num;
-	}
-	integer_part = (unsigned int)positive_num;
-	decimal_part = (unsigned int)((positive_num - integer_part) * 1000000);
-	ft_putunbr(integer_part);
-	ft_putchar_fd('.', 1);
-	ft_putunbr(decimal_part);
-}
-
-void	handle_format(const char *ptr, va_list args)
+static void	handle_format(const char *ptr, va_list args)
 {
 	if (*ptr == 'c')
 		ft_putchar_fd(va_arg(args, int), 1);
@@ -107,7 +56,7 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (0);
 }
-
+/*
 #include <stdio.h>
 
 int main()
@@ -171,4 +120,4 @@ int main()
 
     return 0;
 }
-
+*/

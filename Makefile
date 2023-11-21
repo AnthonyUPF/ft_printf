@@ -14,7 +14,7 @@
 NAME = libftprintf.a
 
 # Fuentes de tu proyecto
-SRCS = ft_printf.c \
+SRCS = ft_puthex.c ft_putunbr.c ft_putfloat.c ft_printf.c 
 
 # Archivos objetos generados a partir de los fuentes
 OBJS = $(SRCS:.c=.o)
