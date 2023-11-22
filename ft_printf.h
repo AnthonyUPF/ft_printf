@@ -16,9 +16,9 @@
 # include <stdarg.h>
 # include "Libft/libft.h"
 
-void	ft_puthex(unsigned long num, int uppercase);
-void	ft_putunbr(unsigned int num);
-void	ft_putfloat(double num);
+void	ft_puthex(unsigned long num, int uppercase, int *count);
+void	ft_putunbr(unsigned int num, int *count);
+void	ft_putfloat(double num, int *count);
 int		ft_printf(const char *format, ...);
 
 #endif

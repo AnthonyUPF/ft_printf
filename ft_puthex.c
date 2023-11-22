@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	ft_puthex(unsigned long num, int uppercase)
+void	ft_puthex(unsigned long num, int uppercase, int *count)
 {
 	char	*hex_digits;
 	char	hex_char;
@@ -20,13 +20,15 @@ void	ft_puthex(unsigned long num, int uppercase)
 	if (num == 0)
 	{
 		ft_putchar_fd('0', 1);
+		*count += 1;
 		return ;
 	}
 	if (num / 16 != 0)
-		ft_puthex(num / 16, uppercase);
+		ft_puthex(num / 16, uppercase, count);
 	hex_digits = "0123456789abcdef";
 	hex_char = hex_digits[num % 16];
 	if (uppercase)
 		hex_char = ft_toupper(hex_char);
 	ft_putchar_fd(hex_char, 1);
+	*count += 1;
 }
