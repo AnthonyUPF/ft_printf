@@ -35,48 +35,34 @@ static int      count_digits(int num)
 
 static void	handle_format(const char *ptr, va_list args, int *count)
 {
-	if (*ptr == 'c')
-	{
+	if (*ptr == 'c' && (*count)++)
 		ft_putchar_fd(va_arg(args, int), 1);
-		(*count)++;
-	}
 	else if (*ptr == 's')
 	{
 		const char *str = va_arg(args, const char *);
-		if (str)
-		{
+		if (str && (*count += ft_strlen(str)))
 			ft_putstr_fd(str, 1);
-			*count += ft_strlen(str);
-		}
-		else
-		{
+		else if(str == NULL && (*count += 6))
 			ft_putstr_fd("(null)", 1);
-			*count += 6;
-		}
 	}	
-	else if (*ptr == 'p')
-	{
-		ft_putstr_fd("0x", 1);
-		*count += 2;
-		ft_puthex(va_arg(args, unsigned long), 0, count);
-	}
 	else if (*ptr == 'd' || *ptr == 'i')
 	{
 		int num = va_arg(args, int);
-                ft_putnbr_fd(num, 1);
+		ft_putnbr_fd(num, 1);
                 (*count) += count_digits(num);
 	}	
 	else if (*ptr == 'u')
 		ft_putunbr(va_arg(args, unsigned int), count);
-	else if (*ptr == 'x' || *ptr == 'X')
-		ft_puthex(va_arg(args, unsigned int), (*ptr == 'X'), count);
+	else if (*ptr == 'p' || *ptr == 'x' || *ptr == 'X')
+	{
+		if(*ptr == 'p' && (*count += 2))
+			ft_putstr_fd("0x", 1);
+		ft_puthex(va_arg(args, unsigned long), (*ptr == 'X'), count);
+	}
 	else if (*ptr == 'f')
 		ft_putfloat(va_arg(args, double), count);
-	else if (*ptr == '%')
-	{
+	else if (*ptr == '%' && (*count)++)
 		ft_putchar_fd('%', 1);
-		(*count)++;
-	}
 }
 
 int	ft_printf(const char *format, ...)
