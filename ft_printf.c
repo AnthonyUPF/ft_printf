@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonpeat <mmonpeat@student.42barcel>       +#+  +:+       +#+        */
+/*   By: anthtorr <anthtorr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/30 19:18:00 by mmonpeat          #+#    #+#             */
-/*   Updated: 2023/03/16 16:07:08 by mmonpeat         ###   ########.fr       */
+/*   Created: 2023/11/23 16:47:51 by anthtorr          #+#    #+#             */
+/*   Updated: 2023/11/23 17:05:00 by anthtorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_printf.h"
@@ -58,9 +58,9 @@ int	print_percent(char *str, va_list ptr)
 		i += 2;
 	}
 	else if (*str == 'i' || *str == 'd')
-		i = (ft_putnum (va_arg(ptr, int)));
+		i = (ft_putnbr (va_arg(ptr, int)));
 	else if (*str == 'u')
-		i = ft_putusnum(va_arg(ptr, unsigned int));
+		i = ft_putunbr(va_arg(ptr, unsigned int));
 	else if (*str == 'x')
 		i = ft_puthex(va_arg(ptr, unsigned int), "0123456789abcdef");
 	else if (*str == 'X')

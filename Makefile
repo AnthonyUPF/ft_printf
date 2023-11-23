@@ -1,10 +1,23 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: anthtorr <anthtorr@student.42barcel>       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/11/23 16:53:56 by anthtorr          #+#    #+#              #
+#    Updated: 2023/11/23 20:51:54 by anthtorr         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME	= libftprintf.a
 
 HEADER	= ft_printf.h
 
 INCLUDE = -I./
 
-SRCS	= ft_printf.c ft_funlibft.c ft_funxp.c
+SRCS	= ft_printf.c ft_putchar.c ft_putstr.c ft_puthex.c ft_putvoid.c\
+		  ft_putnbr.c ft_putunbr.c 
 
 OBJS	= ${SRCS:.c=.o}
 
