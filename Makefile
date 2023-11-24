@@ -16,8 +16,7 @@ HEADER	= ft_printf.h
 
 INCLUDE = -I./
 
-SRCS	= ft_printf.c ft_putchar.c ft_putstr.c ft_puthex.c ft_putvoid.c\
-		  ft_putnbr.c ft_putunbr.c 
+SRCS	= ft_printf.c ft_putchar.c ft_putstr.c ft_puthex.c ft_putnbr.c ft_putunbr.c 
 
 OBJS	= ${SRCS:.c=.o}
 

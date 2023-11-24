@@ -25,7 +25,7 @@ int	ft_putunbr(unsigned int num)
 			return (-1);
 		count += temp;
 	}
-	if (ft_putchar((num % 10) + '0') != 1)
+	if (ft_putchar((num % 10) + '0') == -1)
 		return (-1);
 	return (++count);
 }

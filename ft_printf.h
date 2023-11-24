@@ -18,12 +18,10 @@
 # include <stdarg.h>
 
 int	ft_printf(char const *str, ...);
-int	print_percent(char *str, va_list ptr);
 int	ft_putchar(char c);
-int	ft_putstr(char *s);
-int	ft_putvoid(unsigned long v);
-int	ft_putnbr(int n);
-int	ft_putunbr(unsigned int u);
-int	ft_puthex(unsigned int s, char *base);
+int	ft_putstr(char *str);
+int	ft_putnbr(int num);
+int	ft_putunbr(unsigned int num);
+int	ft_puthex(unsigned long num, int uppercase);
 
 #endif

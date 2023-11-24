@@ -9,74 +9,63 @@
 /*   Updated: 2023/11/23 17:05:00 by anthtorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "ft_printf.h"
 
-static int	ft_errors(const char *str, va_list ptr, int *bytes, int i);
-
-int	ft_printf(char const *str, ...)
+static int	handle_format(const char *ptr, va_list args)
 {
-	va_list	ptr;
-	int		i;
-	int		bytes;
+	int	count;
 
-	i = 0;
-	bytes = 0;
-	va_start (ptr, str);
-	while (str[i] != '\0')
+	count = 0;
+	if (*ptr == 'c')
+		count = ft_putchar (va_arg(args, int));
+	else if (*ptr == 's')
+		count = ft_putstr (va_arg(args, char *));
+	else if (*ptr == 'i' || *ptr == 'd')
+		count = ft_putnbr (va_arg(args, int));
+	else if (*ptr == 'u')
+		count = ft_putunbr(va_arg(args, unsigned int));
+	else if (*ptr == 'p' || *ptr == 'x' || *ptr == 'X')
 	{
-		if (str[i] != '%')
+		if (*ptr == 'p')
 		{
-			if (write (1, &str[i++], 1) != 1)
+			if (ft_putstr("0x") == -1)
 				return (-1);
-			bytes++;
+		}
+		count = ft_puthex(va_arg(args, unsigned long), (*ptr == 'X'));
+		if (*ptr == 'p' && count != -1)
+			count += 2;
+	}
+	else if (*ptr == '%')
+		count = ft_putchar('%');
+	return (count);
+}
+
+int	ft_printf(const char *str, ...)
+{
+	va_list	args;
+	int		count;
+	int		temp;
+
+	va_start(args, str);
+	count = 0;
+	while (*str)
+	{
+		if (*str == '%')
+		{
+			temp = handle_format(++str, args);
+			if (temp == -1)
+				return (-1);
+			count += temp;
 		}
 		else
 		{
-			if (ft_errors(str, ptr, &bytes, i) == -1)
+			if (ft_putchar(*str) == -1)
 				return (-1);
-			i += 2;
+			count++;
 		}
+		str++;
 	}
-	va_end (ptr);
-	return (bytes);
-}
-
-int	print_percent(char *str, va_list ptr)
-{
-	int	i;
-
-	i = 0;
-	if (*str == 'c')
-		i = ft_putchar (va_arg(ptr, int));
-	else if (*str == 's')
-		i = (ft_putstr (va_arg(ptr, char *)));
-	else if (*str == 'p')
-	{
-		if (write(1, &"0x", 2) != 2)
-			return (-1);
-		i = ft_putvoid(va_arg(ptr, unsigned long));
-		i += 2;
-	}
-	else if (*str == 'i' || *str == 'd')
-		i = (ft_putnbr (va_arg(ptr, int)));
-	else if (*str == 'u')
-		i = ft_putunbr(va_arg(ptr, unsigned int));
-	else if (*str == 'x')
-		i = ft_puthex(va_arg(ptr, unsigned int), "0123456789abcdef");
-	else if (*str == 'X')
-		i = ft_puthex(va_arg(ptr, unsigned int), "0123456789ABCDEF");
-	else if (*str == '%')
-		return (ft_putchar('%'));
-	return (i);
-}
-
-static int	ft_errors(const char *str, va_list ptr, int *bytes, int i)
-{
-	int	x;
-
-	x = print_percent((char *)(str + i + 1), ptr);
-	if (x == -1)
-		return (-1);
-	*bytes += x;
-	return (0);
+	va_end(args);
+	return (count);
 }
