@@ -6,13 +6,13 @@
 /*   By: anthtorr <anthtorr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:57:27 by anthtorr          #+#    #+#             */
-/*   Updated: 2023/11/23 20:47:32 by anthtorr         ###   ########.fr       */
+/*   Updated: 2023/11/24 13:54:49 by anthtorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putstr(char *str)
+int	ft_putstr(const char *str)
 {
 	int	count;
 
