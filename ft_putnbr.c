@@ -6,7 +6,7 @@
 /*   By: anthtorr <anthtorr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 17:01:20 by anthtorr          #+#    #+#             */
-/*   Updated: 2023/11/23 20:22:23 by anthtorr         ###   ########.fr       */
+/*   Updated: 2023/11/24 14:50:54 by anthtorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,7 @@ int	ft_putnbr(int num)
 	int	temp;
 
 	count = 0;
-	if (num == -2147483648)
-	{
-		if (ft_putstr("-2147483648") == -1)
-			return (-1);
-		return (11);
-	}
-	else if (num < 0)
+	if (num < 0)
 	{
 		if (ft_putchar('-') == -1)
 			return (-1);
