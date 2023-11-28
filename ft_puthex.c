@@ -26,7 +26,7 @@ int	ft_puthex(unsigned long num, int uppercase)
 	int		temp;
 
 	count = 0;
-	if (num >= 16)
+	if (num > 15)
 	{
 		temp = ft_puthex(num / 16, uppercase);
 		if (temp == -1)

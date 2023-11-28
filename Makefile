@@ -10,36 +10,43 @@
 #                                                                              #
 # **************************************************************************** #
 
-# Nombre del archivo de salida
+# Output file name
 NAME = libftprintf.a
 
-# Lista de archivos fuente obligatorios
+# Header file
+HEADERS = ft_printf.h
+
+# List of mandatory source files
 SRCS = ft_printf.c ft_putchar.c ft_putstr.c ft_puthex.c ft_putnbr.c ft_putunbr.c
 
-# Genera una lista de objetos a partir de los archivos fuente
+# Generate a list of objects from source files
 OBJS = $(SRCS:.c=.o)
 
-# Opciones de compilación
+# Compilation options
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
 
-# Regla para construir la biblioteca
+# Rule to build the library
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
-# Regla por defecto
+# Rule to build object files
+%.o: %.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Default rule
 all: $(NAME)
 
-# Regla para limpiar los archivos objeto
+# Rule to clean object files
 clean:
 	rm -f $(OBJS)
 
-# Regla para limpiar los archivos objeto y la biblioteca
+# Rule to clean object files and the library
 fclean: clean
 	rm -f $(NAME)
 
-# Regla para recompilar todo desde cero
+# Rule to recompile everything from scratch
 re:	fclean all
 
-# Indica que "all", "clean", "fclean", "re" no son nombres de archivos
+# Indicates that "all", "clean", "fclean", "re" are not file names
 .PHONY: all clean fclean re

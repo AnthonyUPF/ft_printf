@@ -20,7 +20,7 @@ static int	handle_format(const char *ptr, va_list args)
 	if (*ptr == 'c')
 		count = ft_putchar (va_arg(args, int));
 	else if (*ptr == 's')
-		count = (ft_putstr (va_arg(args, char *)));
+		count = ft_putstr (va_arg(args, char *));
 	else if (*ptr == 'p')
 	{
 		if (ft_putstr("0x") == -1)
@@ -29,7 +29,7 @@ static int	handle_format(const char *ptr, va_list args)
 		count += 2;
 	}
 	else if (*ptr == 'i' || *ptr == 'd')
-		count = (ft_putnbr (va_arg(args, int)));
+		count = ft_putnbr (va_arg(args, int));
 	else if (*ptr == 'u')
 		count = ft_putunbr(va_arg(args, unsigned int));
 	else if (*ptr == 'x' || *ptr == 'X')
